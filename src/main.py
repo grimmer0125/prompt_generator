@@ -16,16 +16,13 @@ setting = Settings()
 MODEL_NAME = "claude-3-5-sonnet-20240620"
 CLIENT = anthropic.Anthropic(api_key=setting.ANTHROPIC_API_KEY)
 
-def generate_prompt():
-    TASK = "Write me an email" ##Draft an email responding to a customer complaint" # Replace with your task!
-    # Optional: specify the input variables you want Claude to use. If you want Claude to choose, you can set `variables` to an empty list!
-    VARIABLES = []
-    # VARIABLES = ["CUSTOMER_COMPLAINT", "COMPANY_NAME"]
-    # If you want Claude to choose the variables, just leave VARIABLES as an empty list.
-
-    # TASK = "Choose an item from a menu for me given my preferences"
-    # VARIABLES = []
-    # VARIABLES = ["MENU", "PREFERENCES"]    
+def generate_prompt(TASK: str, VARIABLES: list[str] = []):
+    """
+    TASK: e.g. "Write me an email" or "Draft an email responding to a customer complaint" # Replace with your task!
+    
+    VARIABLES (optional): If you want Claude to choose, you can set `VARIABLES` to an empty list!. 
+       Specify the input variables you want Claude to use, e.g. ["CUSTOMER_COMPLAINT", "COMPANY_NAME"].       
+    """
 
     variable_string = ""
     for variable in VARIABLES:
@@ -141,7 +138,7 @@ def find_free_floating_variables(prompt):
     return free_floating_variables
 
 def main():
-    extracted_prompt_template, variables  = generate_prompt()
+    extracted_prompt_template, variables  = generate_prompt("Write me an email")
 
     variable_values = {}
     for variable in variables:
